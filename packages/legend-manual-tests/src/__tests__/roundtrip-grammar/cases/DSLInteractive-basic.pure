@@ -1,0 +1,26 @@
+###InteractiveApplication
+Application(meta::demo::crud::DemoApp)
+{
+  doc: 'Demo Application';
+  store: Relational
+  {
+    type: H2;
+  }
+  globalAuthorization: [None];
+  RootType(Firm)
+  {
+    graphScope: ();
+    primaryKey: id -> NONE;
+    stringLength: name -> 256;
+    ReadService(allFirms)
+    {
+      authorization: [None];
+      query: {|Firm.all()};
+    }
+    ReadService(firmById)
+    {
+      authorization: [None];
+      query: {id: Integer[1]|Firm.all()->filter(f|$f.id == $id)};
+    }
+  }
+}

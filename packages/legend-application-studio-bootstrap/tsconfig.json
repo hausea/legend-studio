@@ -22,5 +22,7 @@
     { "path": "../legend-extension-external-language-morphir" },
     { "path": "../legend-extension-external-store-service" },
     { "path": "../legend-extension-application-studio-query-builder" }
+    { "path": "../legend-extension-dsl-interactive" },
+    { "path": "../legend-extension-external-language-morphir" }
   ]
 }

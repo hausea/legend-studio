@@ -55,6 +55,9 @@
       "path": "packages/legend-extension-dsl-persistence-cloud"
     },
     {
+      "path": "packages/legend-extension-dsl-interactive"
+    },
+    {
       "path": "packages/legend-extension-external-format-json-schema"
     },
     {
