@@ -15,38 +15,40 @@
  */
 
 import { INTERACTIVE_APPLICATION_HASH_STRUCTURE } from '../../../../../../DSLInteractive_ModelUtils';
-import {
-  type PackageableElementVisitor,
-  V1_PackageableElement,
-  V1_PackageableElementVisitor,
-} from '@finos/legend-graph';
 import { type Hashable, hashArray } from '@finos/legend-shared';
-import type { V1_InteractiveApplicationStore } from './V1_DSLInteractive_InteractiveApplicationStore';
 import type { V1_InteractiveAuthorization } from './V1_DSLInteractive_InteractiveAuthorization';
-import type { V1_InteractiveType } from './V1_DSLInteractive_InteractiveType';
+import type { V1_RawLambda } from '@finos/legend-graph';
 
-export class V1_InteractiveApplication
-  extends V1_PackageableElement
+export abstract class V1_InteractiveService implements Hashable {
+  name!: string;
+  authorization!: V1_InteractiveAuthorization;
+
+  abstract get hashCode(): string;
+}
+
+export class V1_InteractiveServiceRead
+  extends V1_InteractiveService
   implements Hashable
 {
-  documentation!: string;
-  store!: V1_InteractiveApplicationStore;
-  globalAuthorization!: V1_InteractiveAuthorization;
-  types!: V1_InteractiveType[];
+  query!: V1_RawLambda;
 
   override get hashCode(): string {
     return hashArray([
-      INTERACTIVE_APPLICATION_HASH_STRUCTURE.INTERACTIVE_APPLICATION,
-      this.documentation,
-      this.store,
-      this.globalAuthorization,
-      hashArray(this.types),
+      INTERACTIVE_APPLICATION_HASH_STRUCTURE.INTERACTIVE_SERVICE_READ,
+      this.name,
+      this.query,
     ]);
   }
+}
 
-  accept_PackageableElementVisitor<T>(
-    visitor: V1_PackageableElementVisitor<T>,
-  ): T {
-    return visitor.visit_PackageableElement(this);
+export class V1_InteractiveServiceCreate
+  extends V1_InteractiveService
+  implements Hashable
+{
+  override get hashCode(): string {
+    return hashArray([
+      INTERACTIVE_APPLICATION_HASH_STRUCTURE.INTERACTIVE_SERVICE_CREATE,
+      this.name,
+    ]);
   }
 }

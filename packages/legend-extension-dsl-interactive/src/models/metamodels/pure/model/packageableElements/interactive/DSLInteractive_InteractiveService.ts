@@ -15,37 +15,40 @@
  */
 
 import { INTERACTIVE_APPLICATION_HASH_STRUCTURE } from '../../../../../DSLInteractive_ModelUtils';
-import {
-  PackageableElement,
-  type PackageableElementVisitor,
-} from '@finos/legend-graph';
 import { type Hashable, hashArray } from '@finos/legend-shared';
-import type { InteractiveApplicationStore } from './DSLInteractive_InteractiveApplicationStore';
 import type { InteractiveAuthorization } from './DSLInteractive_InteractiveAuthorization';
-import type { InteractiveType } from './DSLInteractive_InteractiveType';
+import type { RawLambda } from '@finos/legend-graph';
 
-export class InteractiveApplication
-  extends PackageableElement
+export abstract class InteractiveService implements Hashable {
+  name!: string;
+  authorization!: InteractiveAuthorization;
+
+  abstract get hashCode(): string;
+}
+
+export class InteractiveServiceRead
+  extends InteractiveService
   implements Hashable
 {
-  documentation!: string;
-  store!: InteractiveApplicationStore;
-  globalAuthorization!: InteractiveAuthorization;
-  types!: InteractiveType[];
+  query!: RawLambda;
 
-  protected override get _elementHashCode(): string {
+  override get hashCode(): string {
     return hashArray([
-      INTERACTIVE_APPLICATION_HASH_STRUCTURE.INTERACTIVE_APPLICATION,
-      this.documentation,
-      this.store,
-      this.globalAuthorization,
-      hashArray(this.types),
+      INTERACTIVE_APPLICATION_HASH_STRUCTURE.INTERACTIVE_SERVICE_READ,
+      this.name,
+      this.query,
     ]);
   }
+}
 
-  accept_PackageableElementVisitor<T>(
-    visitor: PackageableElementVisitor<T>,
-  ): T {
-    return visitor.visit_PackageableElement(this);
+export class InteractiveServiceCreate
+  extends InteractiveService
+  implements Hashable
+{
+  override get hashCode(): string {
+    return hashArray([
+      INTERACTIVE_APPLICATION_HASH_STRUCTURE.INTERACTIVE_SERVICE_CREATE,
+      this.name,
+    ]);
   }
 }

@@ -101,6 +101,7 @@ export class DSLInteractive_PureProtocolProcessorPlugin extends PureProtocolProc
         plugins: PureProtocolProcessorPlugin[],
       ): PlainObject<V1_PackageableElement> | undefined => {
         if (elementProtocol instanceof V1_InteractiveApplication) {
+          console.log(elementProtocol);
           return serialize(
             V1_interactiveApplicationModelSchema(plugins),
             elementProtocol,
@@ -118,6 +119,7 @@ export class DSLInteractive_PureProtocolProcessorPlugin extends PureProtocolProc
         plugins: PureProtocolProcessorPlugin[],
       ): V1_PackageableElement | undefined => {
         if (json._type === V1_INTERACTIVE_APPLICATION_ELEMENT_PROTOCOL_TYPE) {
+          console.log(json);
           return deserialize(
             V1_interactiveApplicationModelSchema(plugins),
             json,

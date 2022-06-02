@@ -16,14 +16,365 @@
 
 import { V1_InteractiveApplication } from '../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveApplication';
 import type { PureProtocolProcessorPlugin } from '@finos/legend-graph';
-import { usingConstantValueSchema } from '@finos/legend-shared';
-import { createModelSchema, type ModelSchema, primitive } from 'serializr';
+import {
+  V1_deserializeRawValueSpecification,
+  V1_deserializeValueSpecification,
+  V1_serializeRawValueSpecification,
+  V1_serializeValueSpecification,
+} from '@finos/legend-graph';
+import {
+  deserializeArray,
+  PlainObject,
+  serializeArray,
+  UnsupportedOperationError,
+  usingConstantValueSchema,
+} from '@finos/legend-shared';
+import {
+  createModelSchema,
+  custom,
+  deserialize,
+  type ModelSchema,
+  primitive,
+  serialize,
+} from 'serializr';
+import {
+  V1_InteractiveApplicationStore,
+  V1_InteractiveApplicationStoreRelational,
+} from '../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveApplicationStore';
+import {
+  V1_DefaultInteractiveAuthorization,
+  V1_InteractiveAuthorization,
+} from '../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveAuthorization';
+import { V1_InteractiveType } from '../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveType';
+import {
+  V1_InteractiveTypeConfiguration,
+  V1_InteractiveTypePrimaryKeysConfiguration,
+  V1_InteractiveTypePrimaryKeysPrimaryKeyConfiguration,
+  V1_InteractiveTypeStringPropertyConfiguration,
+} from '../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveConfiguration';
+import {
+  V1_InteractiveService,
+  V1_InteractiveServiceCreate,
+  V1_InteractiveServiceRead,
+} from '../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveService';
+
+/**********
+ * interactive configuration
+ **********/
+
+enum V1_InteractiveServiceType {
+  READ = 'readInteractiveService',
+  CREATE = 'createInteractiveService',
+}
+
+const V1_readInteractiveServiceSchema =
+  (): ModelSchema<V1_InteractiveServiceRead> =>
+    createModelSchema(V1_InteractiveServiceRead, {
+      _type: usingConstantValueSchema(V1_InteractiveServiceType.READ),
+      authorization: custom(
+        (val) => V1_serializeInteractiveAuthorization(val),
+        (val) => V1_deserializeInteractiveAuthorization(val),
+      ),
+      name: primitive(),
+      query: custom(
+        (val) => V1_serializeRawValueSpecification(val),
+        (val) => V1_deserializeRawValueSpecification(val),
+      ),
+    });
+
+const V1_createInteractiveServiceSchema =
+  (): ModelSchema<V1_InteractiveServiceCreate> =>
+    createModelSchema(V1_InteractiveServiceCreate, {
+      _type: usingConstantValueSchema(V1_InteractiveServiceType.CREATE),
+      authorization: custom(
+        (val) => V1_serializeInteractiveAuthorization(val),
+        (val) => V1_deserializeInteractiveAuthorization(val),
+      ),
+      name: primitive(),
+    });
+
+const V1_serializeInteractiveService = (
+  protocol: V1_InteractiveService,
+): PlainObject<V1_InteractiveService> => {
+  if (protocol instanceof V1_InteractiveServiceRead) {
+    return serialize(V1_readInteractiveServiceSchema(), protocol);
+  } else if (protocol instanceof V1_InteractiveServiceCreate) {
+    return serialize(V1_createInteractiveServiceSchema(), protocol);
+  }
+  throw new UnsupportedOperationError(`Can't serialize type service`, protocol);
+};
+
+const V1_deserializeInteractiveService = (
+  json: PlainObject<V1_InteractiveService>,
+): V1_InteractiveService => {
+  switch (json._type) {
+    case V1_InteractiveServiceType.READ:
+      return deserialize(V1_readInteractiveServiceSchema(), json);
+    case V1_InteractiveServiceType.CREATE:
+      return deserialize(V1_createInteractiveServiceSchema(), json);
+    default:
+      throw new UnsupportedOperationError(
+        `Can't deserialize type service '${json._type}'`,
+      );
+  }
+};
+
+/**********
+ * interactive configuration
+ **********/
+
+enum V1_InteractiveTypeConfigurationType {
+  PRIMARY_KEY = 'interactiveTypePrimaryKeysConfiguration',
+  STRING_LENGTH = 'interactiveTypeStringPropertyConfiguration',
+}
+
+const V1_stringLengthInteractiveTypeConfigurationSchema =
+  (): ModelSchema<V1_InteractiveTypeStringPropertyConfiguration> =>
+    createModelSchema(V1_InteractiveTypeStringPropertyConfiguration, {
+      _type: usingConstantValueSchema(
+        V1_InteractiveTypeConfigurationType.STRING_LENGTH,
+      ),
+      property: primitive(),
+      minLength: primitive(),
+      maxLength: primitive(),
+    });
+
+const V1_primaryKeysInteractiveTypeConfigurationSchema =
+  (): ModelSchema<V1_InteractiveTypePrimaryKeysConfiguration> =>
+    createModelSchema(V1_InteractiveTypePrimaryKeysConfiguration, {
+      _type: usingConstantValueSchema(
+        V1_InteractiveTypeConfigurationType.PRIMARY_KEY,
+      ),
+      primaryKeys: custom(
+        (val) =>
+          serializeArray(
+            val,
+            (v: V1_InteractiveTypePrimaryKeysPrimaryKeyConfiguration) =>
+              serialize(
+                V1_primaryKeysPrimaryKeyInteractiveTypeConfigurationSchema(),
+                v,
+              ),
+            {
+              skipIfEmpty: true,
+              INTERNAL__forceReturnEmptyInTest: true,
+            },
+          ),
+        (val) =>
+          deserializeArray(
+            val,
+            (v) =>
+              deserialize(
+                V1_primaryKeysPrimaryKeyInteractiveTypeConfigurationSchema(),
+                v,
+              ),
+            {
+              skipIfEmpty: false,
+            },
+          ),
+      ),
+    });
+
+const V1_primaryKeysPrimaryKeyInteractiveTypeConfigurationSchema =
+  (): ModelSchema<V1_InteractiveTypePrimaryKeysPrimaryKeyConfiguration> =>
+    createModelSchema(V1_InteractiveTypePrimaryKeysPrimaryKeyConfiguration, {
+      property: primitive(),
+      strategy: primitive(),
+    });
+
+const V1_serializeInteractiveTypeConfiguration = (
+  protocol: V1_InteractiveTypeConfiguration,
+): PlainObject<V1_InteractiveTypeConfiguration> => {
+  if (protocol instanceof V1_InteractiveTypePrimaryKeysConfiguration) {
+    return serialize(
+      V1_primaryKeysInteractiveTypeConfigurationSchema(),
+      protocol,
+    );
+  } else if (
+    protocol instanceof V1_InteractiveTypeStringPropertyConfiguration
+  ) {
+    return serialize(
+      V1_stringLengthInteractiveTypeConfigurationSchema(),
+      protocol,
+    );
+  }
+  throw new UnsupportedOperationError(
+    `Can't serialize type configuration`,
+    protocol,
+  );
+};
+
+const V1_deserializeInteractiveTypeConfiguration = (
+  json: PlainObject<V1_InteractiveTypeConfiguration>,
+): V1_InteractiveTypeConfiguration => {
+  console.log(json);
+  switch (json._type) {
+    case V1_InteractiveTypeConfigurationType.PRIMARY_KEY:
+      return deserialize(
+        V1_primaryKeysInteractiveTypeConfigurationSchema(),
+        json,
+      );
+    case V1_InteractiveTypeConfigurationType.STRING_LENGTH:
+      return deserialize(
+        V1_stringLengthInteractiveTypeConfigurationSchema(),
+        json,
+      );
+    default:
+      throw new UnsupportedOperationError(
+        `Can't deserialize type configuration '${json._type}'`,
+      );
+  }
+};
+
+/**********
+ * interactive type
+ **********/
+
+const V1_interactiveTypeSchema = (): ModelSchema<V1_InteractiveType> =>
+  createModelSchema(V1_InteractiveType, {
+    baseClass: primitive(),
+    // graphScope: custom(
+    //   (val) => V1_serializeRawValueSpecification(val),
+    //   (val) => V1_deserializeRawValueSpecification(val),
+    // ),
+    configuration: custom(
+      (val) =>
+        serializeArray(
+          val,
+          (v: V1_InteractiveTypeConfiguration) =>
+            V1_serializeInteractiveTypeConfiguration(v),
+          {
+            skipIfEmpty: true,
+            INTERNAL__forceReturnEmptyInTest: true,
+          },
+        ),
+      (val) =>
+        deserializeArray(
+          val,
+          (v) => V1_deserializeInteractiveTypeConfiguration(v),
+          {
+            skipIfEmpty: false,
+          },
+        ),
+    ),
+    services: custom(
+      (val) =>
+        serializeArray(
+          val,
+          (v: V1_InteractiveService) => V1_serializeInteractiveService(v),
+          {
+            skipIfEmpty: true,
+            INTERNAL__forceReturnEmptyInTest: true,
+          },
+        ),
+      (val) =>
+        deserializeArray(val, (v) => V1_deserializeInteractiveService(v), {
+          skipIfEmpty: false,
+        }),
+    ),
+  });
+
+const V1_serializeInteractiveType = (
+  protocol: V1_InteractiveType,
+): PlainObject<V1_InteractiveType> => {
+  return serialize(V1_interactiveTypeSchema(), protocol);
+};
+
+const V1_deserializeInteractiveType = (
+  json: PlainObject<V1_InteractiveType>,
+): V1_InteractiveType => {
+  return deserialize(V1_interactiveTypeSchema(), json);
+};
+
+/**********
+ * interactive authorization
+ **********/
+
+enum V1_InteractiveAuthorizationType {
+  DEFAULT = 'defaultInteractiveAuthorization',
+}
+
+const V1_defaultInteractiveAuthorizationSchema =
+  (): ModelSchema<V1_DefaultInteractiveAuthorization> =>
+    createModelSchema(V1_DefaultInteractiveAuthorization, {
+      _type: usingConstantValueSchema(V1_InteractiveAuthorizationType.DEFAULT),
+      authorizationFunction: custom(
+        (val) => V1_serializeRawValueSpecification(val),
+        (val) => V1_deserializeRawValueSpecification(val),
+      ),
+    });
+
+const V1_serializeInteractiveAuthorization = (
+  protocol: V1_InteractiveAuthorization,
+): PlainObject<V1_InteractiveAuthorization> => {
+  if (protocol instanceof V1_DefaultInteractiveAuthorization) {
+    return serialize(V1_defaultInteractiveAuthorizationSchema(), protocol);
+  }
+  throw new UnsupportedOperationError(
+    `Can't serialize authorization`,
+    protocol,
+  );
+};
+
+const V1_deserializeInteractiveAuthorization = (
+  json: PlainObject<V1_InteractiveAuthorization>,
+): V1_InteractiveAuthorization => {
+  switch (json._type) {
+    case V1_InteractiveAuthorizationType.DEFAULT:
+      return deserialize(V1_defaultInteractiveAuthorizationSchema(), json);
+    default:
+      throw new UnsupportedOperationError(
+        `Can't deserialize authorization '${json._type}'`,
+      );
+  }
+};
+
+/**********
+ * interactive store
+ **********/
+
+enum V1_InteractiveStoreType {
+  RELATIONAL = 'relationalInteractiveApplicationStore',
+}
+
+const V1_relationalInteractiveStoreSchema =
+  (): ModelSchema<V1_InteractiveApplicationStoreRelational> =>
+    createModelSchema(V1_InteractiveApplicationStoreRelational, {
+      _type: usingConstantValueSchema(V1_InteractiveStoreType.RELATIONAL),
+      connection: custom(
+        (val) => V1_serializeRawValueSpecification(val),
+        (val) => V1_deserializeRawValueSpecification(val),
+      ),
+      type: primitive(),
+    });
+
+const V1_serializeInteractiveStore = (
+  protocol: V1_InteractiveApplicationStore,
+): PlainObject<V1_InteractiveApplicationStore> => {
+  if (protocol instanceof V1_InteractiveApplicationStoreRelational) {
+    return serialize(V1_relationalInteractiveStoreSchema(), protocol);
+  }
+  throw new UnsupportedOperationError(`Can't serialize store`, protocol);
+};
+
+const V1_deserializeInteractiveStore = (
+  json: PlainObject<V1_InteractiveApplicationStore>,
+): V1_InteractiveApplicationStore => {
+  switch (json._type) {
+    case V1_InteractiveStoreType.RELATIONAL:
+      return deserialize(V1_relationalInteractiveStoreSchema(), json);
+    default:
+      throw new UnsupportedOperationError(
+        `Can't deserialize store '${json._type}'`,
+      );
+  }
+};
 
 /**********
  * interactive application
  **********/
 
-export const V1_INTERACTIVE_APPLICATION_ELEMENT_PROTOCOL_TYPE = 'interactive';
+export const V1_INTERACTIVE_APPLICATION_ELEMENT_PROTOCOL_TYPE =
+  'interactiveApplication';
 
 export const V1_interactiveApplicationModelSchema = (
   plugins: PureProtocolProcessorPlugin[],
@@ -32,10 +383,30 @@ export const V1_interactiveApplicationModelSchema = (
     _type: usingConstantValueSchema(
       V1_INTERACTIVE_APPLICATION_ELEMENT_PROTOCOL_TYPE,
     ),
-    documentation: primitive(),
     name: primitive(),
-    // trigger: custom(
-    //   (val) => V1_serializeTrigger(val),
-    //   (val) => V1_deserializeTrigger(val),
-    // ),
+    package: primitive(),
+    documentation: primitive(),
+    store: custom(
+      (val) => V1_serializeInteractiveStore(val),
+      (val) => V1_deserializeInteractiveStore(val),
+    ),
+    globalAuthorization: custom(
+      (val) => V1_serializeInteractiveAuthorization(val),
+      (val) => V1_deserializeInteractiveAuthorization(val),
+    ),
+    types: custom(
+      (val) =>
+        serializeArray(
+          val,
+          (v: V1_InteractiveType) => V1_serializeInteractiveType(v),
+          {
+            skipIfEmpty: true,
+            INTERNAL__forceReturnEmptyInTest: true,
+          },
+        ),
+      (val) =>
+        deserializeArray(val, (v) => V1_deserializeInteractiveType(v), {
+          skipIfEmpty: false,
+        }),
+    ),
   });
