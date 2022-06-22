@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-export * from './DSLInteractive_Extension';
-export { DSLInteractive_LegendStudioPlugin } from './components/studio/DSLInteractive_LegendStudioPlugin';
-export { InteractiveApplication } from './models/metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveApplication';
-export { V1_InteractiveApplication } from './models/protocols/pure/v1/model/packageableElements/interactive/V1_DSLInteractive_InteractiveApplication';
+export * from './DSLInteractive_Extension.js';
+export { DSLInteractive_LegendStudioPlugin } from './components/studio/DSLInteractive_LegendStudioPlugin.js';
+export { InteractiveApplication } from './models/metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveApplication.js';
+export { V1_InteractiveApplication } from './models/protocols/pure/v1/model/packageableElements/interactive/V1_DSLInteractive_InteractiveApplication.js';

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { V1_InteractiveApplication } from '../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveApplication';
+import { V1_InteractiveApplication } from '../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveApplication.js';
 import type { PureProtocolProcessorPlugin } from '@finos/legend-graph';
 import {
   V1_deserializeRawValueSpecification,
@@ -40,23 +40,26 @@ import {
 import {
   V1_InteractiveApplicationStore,
   V1_InteractiveApplicationStoreRelational,
-} from '../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveApplicationStore';
+} from '../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveApplicationStore.js';
 import {
   V1_DefaultInteractiveAuthorization,
   V1_InteractiveAuthorization,
-} from '../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveAuthorization';
-import { V1_InteractiveType } from '../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveType';
+} from '../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveAuthorization.js';
+import { V1_InteractiveType } from '../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveType.js';
 import {
   V1_InteractiveTypeConfiguration,
   V1_InteractiveTypePrimaryKeysConfiguration,
   V1_InteractiveTypePrimaryKeysPrimaryKeyConfiguration,
   V1_InteractiveTypeStringPropertyConfiguration,
-} from '../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveConfiguration';
+} from '../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveConfiguration.js';
 import {
   V1_InteractiveService,
   V1_InteractiveServiceCreate,
+  V1_InteractiveServiceDelete,
   V1_InteractiveServiceRead,
-} from '../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveService';
+  V1_InteractiveServiceUpdate,
+  V1_InteractiveServiceUpsert,
+} from '../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveService.js';
 
 /**********
  * interactive configuration
@@ -65,6 +68,9 @@ import {
 enum V1_InteractiveServiceType {
   READ = 'readInteractiveService',
   CREATE = 'createInteractiveService',
+  UPDATE = 'updateInteractiveService',
+  UPSERT = 'upsertInteractiveService',
+  DELETE = 'deleteInteractiveService',
 }
 
 const V1_readInteractiveServiceSchema =
@@ -93,6 +99,51 @@ const V1_createInteractiveServiceSchema =
       name: primitive(),
     });
 
+const V1_updateInteractiveServiceSchema =
+  (): ModelSchema<V1_InteractiveServiceUpdate> =>
+    createModelSchema(V1_InteractiveServiceUpdate, {
+      _type: usingConstantValueSchema(V1_InteractiveServiceType.UPDATE),
+      authorization: custom(
+        (val) => V1_serializeInteractiveAuthorization(val),
+        (val) => V1_deserializeInteractiveAuthorization(val),
+      ),
+      name: primitive(),
+      query: custom(
+        (val) => V1_serializeRawValueSpecification(val),
+        (val) => V1_deserializeRawValueSpecification(val),
+      ),
+    });
+
+const V1_upsertInteractiveServiceSchema =
+  (): ModelSchema<V1_InteractiveServiceUpsert> =>
+    createModelSchema(V1_InteractiveServiceUpsert, {
+      _type: usingConstantValueSchema(V1_InteractiveServiceType.UPSERT),
+      authorization: custom(
+        (val) => V1_serializeInteractiveAuthorization(val),
+        (val) => V1_deserializeInteractiveAuthorization(val),
+      ),
+      name: primitive(),
+      query: custom(
+        (val) => V1_serializeRawValueSpecification(val),
+        (val) => V1_deserializeRawValueSpecification(val),
+      ),
+    });
+
+const V1_deleteInteractiveServiceSchema =
+  (): ModelSchema<V1_InteractiveServiceDelete> =>
+    createModelSchema(V1_InteractiveServiceDelete, {
+      _type: usingConstantValueSchema(V1_InteractiveServiceType.DELETE),
+      authorization: custom(
+        (val) => V1_serializeInteractiveAuthorization(val),
+        (val) => V1_deserializeInteractiveAuthorization(val),
+      ),
+      name: primitive(),
+      query: custom(
+        (val) => V1_serializeRawValueSpecification(val),
+        (val) => V1_deserializeRawValueSpecification(val),
+      ),
+    });
+
 const V1_serializeInteractiveService = (
   protocol: V1_InteractiveService,
 ): PlainObject<V1_InteractiveService> => {
@@ -100,6 +151,12 @@ const V1_serializeInteractiveService = (
     return serialize(V1_readInteractiveServiceSchema(), protocol);
   } else if (protocol instanceof V1_InteractiveServiceCreate) {
     return serialize(V1_createInteractiveServiceSchema(), protocol);
+  } else if (protocol instanceof V1_InteractiveServiceUpdate) {
+    return serialize(V1_updateInteractiveServiceSchema(), protocol);
+  } else if (protocol instanceof V1_InteractiveServiceUpsert) {
+    return serialize(V1_upsertInteractiveServiceSchema(), protocol);
+  } else if (protocol instanceof V1_InteractiveServiceDelete) {
+    return serialize(V1_deleteInteractiveServiceSchema(), protocol);
   }
   throw new UnsupportedOperationError(`Can't serialize type service`, protocol);
 };

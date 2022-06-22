@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-import { INTERACTIVE_APPLICATION_HASH_STRUCTURE } from '../../../../../DSLInteractive_ModelUtils';
+import { INTERACTIVE_APPLICATION_HASH_STRUCTURE } from '../../../../../DSLInteractive_ModelUtils.js';
 import {
   PackageableElement,
   type PackageableElementVisitor,
 } from '@finos/legend-graph';
 import { type Hashable, hashArray } from '@finos/legend-shared';
-import type { InteractiveApplicationStore } from './DSLInteractive_InteractiveApplicationStore';
-import type { InteractiveAuthorization } from './DSLInteractive_InteractiveAuthorization';
-import type { InteractiveType } from './DSLInteractive_InteractiveType';
+import type { InteractiveApplicationStore } from './DSLInteractive_InteractiveApplicationStore.js';
+import type { InteractiveAuthorization } from './DSLInteractive_InteractiveAuthorization.js';
+import type { InteractiveType } from './DSLInteractive_InteractiveType.js';
 
 export class InteractiveApplication
   extends PackageableElement

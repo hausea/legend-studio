@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { InteractiveApplication } from '../models/metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveApplication';
+import { InteractiveApplication } from '../models/metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveApplication.js';
 import type { BasicModel, PureModel } from '@finos/legend-graph';
 import { guaranteeNonNullable } from '@finos/legend-shared';
 

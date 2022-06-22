@@ -15,14 +15,14 @@
  */
 
 import packageJson from '../../../../package.json';
-import { InteractiveApplication } from '../../metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveApplication';
-import { V1_InteractiveApplication } from './v1/model/packageableElements/interactive/V1_DSLInteractive_InteractiveApplication';
+import { InteractiveApplication } from '../../metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveApplication.js';
+import { V1_InteractiveApplication } from './v1/model/packageableElements/interactive/V1_DSLInteractive_InteractiveApplication.js';
 import {
   V1_INTERACTIVE_APPLICATION_ELEMENT_PROTOCOL_TYPE,
   V1_interactiveApplicationModelSchema,
-} from './v1/transformation/pureProtocol/V1_DSLInteractive_ProtocolHelper';
-import { V1_buildInteractiveApplication } from './v1/transformation/pureGraph/to/V1_InteractiveApplicationBuilder';
-import { V1_transformInteractiveApplication } from './v1/transformation/pureGraph/from/V1_InteractiveApplicationTransformer';
+} from './v1/transformation/pureProtocol/V1_DSLInteractive_ProtocolHelper.js';
+import { V1_buildInteractiveApplication } from './v1/transformation/pureGraph/to/V1_InteractiveApplicationBuilder.js';
+import { V1_transformInteractiveApplication } from './v1/transformation/pureGraph/from/V1_InteractiveApplicationTransformer.js';
 import {
   type PackageableElement,
   PureProtocolProcessorPlugin,

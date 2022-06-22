@@ -17,20 +17,17 @@
 import packageJson from '../package.json';
 
 import { AbstractPreset } from '@finos/legend-shared';
-import type { GraphPluginManager } from '@finos/legend-graph';
 
-import { DSLInteractive_PureGraphPlugin } from './graph/DSLInteractive_PureGraphPlugin';
-import { DSLInteractive_PureGraphManagerPlugin } from './graphManager/DSLInteractive_PureGraphManagerPlugin';
-import { DSLInteractive_PureProtocolProcessorPlugin } from './models/protocols/pure/DSLInteractive_PureProtocolProcessorPlugin';
+import { DSLInteractive_PureGraphPlugin } from './graph/DSLInteractive_PureGraphPlugin.js';
+import { DSLInteractive_PureGraphManagerPlugin } from './graphManager/DSLInteractive_PureGraphManagerPlugin.js';
+import { DSLInteractive_PureProtocolProcessorPlugin } from './models/protocols/pure/DSLInteractive_PureProtocolProcessorPlugin.js';
 
 export class DSLInteractive_GraphPreset extends AbstractPreset {
   constructor() {
-    super(packageJson.extensions.graphPreset, packageJson.version);
-  }
-
-  install(pluginManager: GraphPluginManager): void {
-    new DSLInteractive_PureGraphPlugin().install(pluginManager);
-    new DSLInteractive_PureGraphManagerPlugin().install(pluginManager);
-    new DSLInteractive_PureProtocolProcessorPlugin().install(pluginManager);
+    super(packageJson.extensions.graphPreset, packageJson.version, [
+      new DSLInteractive_PureGraphPlugin(),
+      new DSLInteractive_PureGraphManagerPlugin(),
+      new DSLInteractive_PureProtocolProcessorPlugin(),
+    ]);
   }
 }

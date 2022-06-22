@@ -14,61 +14,130 @@
  * limitations under the License.
  */
 
-import { V1_InteractiveApplication } from '../../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveApplication';
+import { V1_InteractiveApplication } from '../../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveApplication.js';
 import {
   type V1_GraphTransformerContext,
   V1_initPackageableElement,
   V1_RawLambda,
   V1_RawValueSpecificationTransformer,
 } from '@finos/legend-graph';
-import type { InteractiveApplication } from '../../../../../../metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveApplication';
+import type { InteractiveApplication } from '../../../../../../metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveApplication.js';
 import {
   InteractiveApplicationStore,
   InteractiveApplicationStoreRelational,
-} from '../../../../../../metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveApplicationStore';
+} from '../../../../../../metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveApplicationStore.js';
 import {
   V1_InteractiveApplicationStore,
   V1_InteractiveApplicationStoreRelational,
-} from '../../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveApplicationStore';
+} from '../../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveApplicationStore.js';
 import { guaranteeType, UnsupportedOperationError } from '@finos/legend-shared';
 import {
   DefaultInteractiveAuthorization,
   InteractiveAuthorization,
-} from '../../../../../../metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveAuthorization';
+} from '../../../../../../metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveAuthorization.js';
 import {
   V1_DefaultInteractiveAuthorization,
   V1_InteractiveAuthorization,
-} from '../../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveAuthorization';
-import type { InteractiveType } from '../../../../../../metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveType';
-import { V1_InteractiveType } from '../../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveType';
+} from '../../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveAuthorization.js';
+import type { InteractiveType } from '../../../../../../metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveType.js';
+import { V1_InteractiveType } from '../../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveType.js';
 import {
   InteractiveTypeConfiguration,
   InteractiveTypePrimaryKeysConfiguration,
   InteractiveTypePrimaryKeysPrimaryKeyConfiguration,
   InteractiveTypeStringPropertyConfiguration,
   PrimaryKeyStrategy,
-} from '../../../../../../metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveConfiguration';
+} from '../../../../../../metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveConfiguration.js';
 import {
   V1_InteractiveTypeConfiguration,
   V1_InteractiveTypePrimaryKeysConfiguration,
   V1_InteractiveTypePrimaryKeysPrimaryKeyConfiguration,
   V1_InteractiveTypeStringPropertyConfiguration,
   V1_PrimaryKeyStrategy,
-} from '../../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveConfiguration';
+} from '../../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveConfiguration.js';
 import {
   InteractiveService,
   InteractiveServiceCreate,
+  InteractiveServiceDelete,
   InteractiveServiceRead,
-} from '../../../../../../metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveService';
+  InteractiveServiceUpdate,
+  InteractiveServiceUpsert,
+} from '../../../../../../metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveService.js';
 import {
   V1_InteractiveService,
   V1_InteractiveServiceCreate,
+  V1_InteractiveServiceDelete,
   V1_InteractiveServiceRead,
-} from '../../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveService';
+  V1_InteractiveServiceUpdate,
+  V1_InteractiveServiceUpsert,
+} from '../../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveService.js';
 
 /**********
  * interactive service
  **********/
+
+export const V1_transformInteractiveServiceDelete = (
+  element: InteractiveServiceDelete,
+  context: V1_GraphTransformerContext,
+): V1_InteractiveServiceDelete => {
+  const protocol = new V1_InteractiveServiceDelete();
+  protocol.name = element.name;
+  protocol.authorization = V1_transformInteractiveAuthorization(
+    element.authorization,
+    context,
+  );
+  if (element.query) {
+    protocol.query = guaranteeType(
+      element.query.accept_RawValueSpecificationVisitor(
+        new V1_RawValueSpecificationTransformer(context),
+      ),
+      V1_RawLambda,
+    );
+  }
+  return protocol;
+};
+
+export const V1_transformInteractiveServiceUpsert = (
+  element: InteractiveServiceUpsert,
+  context: V1_GraphTransformerContext,
+): V1_InteractiveServiceUpsert => {
+  const protocol = new V1_InteractiveServiceUpsert();
+  protocol.name = element.name;
+  protocol.authorization = V1_transformInteractiveAuthorization(
+    element.authorization,
+    context,
+  );
+  if (element.query) {
+    protocol.query = guaranteeType(
+      element.query.accept_RawValueSpecificationVisitor(
+        new V1_RawValueSpecificationTransformer(context),
+      ),
+      V1_RawLambda,
+    );
+  }
+  return protocol;
+};
+
+export const V1_transformInteractiveServiceUpdate = (
+  element: InteractiveServiceUpdate,
+  context: V1_GraphTransformerContext,
+): V1_InteractiveServiceUpdate => {
+  const protocol = new V1_InteractiveServiceUpdate();
+  protocol.name = element.name;
+  protocol.authorization = V1_transformInteractiveAuthorization(
+    element.authorization,
+    context,
+  );
+  if (element.query) {
+    protocol.query = guaranteeType(
+      element.query.accept_RawValueSpecificationVisitor(
+        new V1_RawValueSpecificationTransformer(context),
+      ),
+      V1_RawLambda,
+    );
+  }
+  return protocol;
+};
 
 export const V1_transformInteractiveServiceCreate = (
   element: InteractiveServiceCreate,
@@ -113,6 +182,15 @@ export const V1_transformInteractiveService = (
   }
   if (element instanceof InteractiveServiceCreate) {
     return V1_transformInteractiveServiceCreate(element, context);
+  }
+  if (element instanceof InteractiveServiceUpdate) {
+    return V1_transformInteractiveServiceUpdate(element, context);
+  }
+  if (element instanceof InteractiveServiceUpsert) {
+    return V1_transformInteractiveServiceUpsert(element, context);
+  }
+  if (element instanceof InteractiveServiceDelete) {
+    return V1_transformInteractiveServiceDelete(element, context);
   }
   throw new UnsupportedOperationError(`Can't transform service '${element}'`);
 };
@@ -160,8 +238,12 @@ export const V1_transformInteractiveTypeConfigurationPrimaryKeys = (
   context: V1_GraphTransformerContext,
 ): V1_InteractiveTypePrimaryKeysConfiguration => {
   const protocol = new V1_InteractiveTypePrimaryKeysConfiguration();
-  protocol.primaryKeys = element.primaryKeys.map((pk) =>
-    V1_transformInteractiveTypeConfigurationPrimaryKeysPrimaryKey(pk, context),
+  protocol.primaryKeys = element.primaryKeys.map(
+    (pk: InteractiveTypePrimaryKeysPrimaryKeyConfiguration) =>
+      V1_transformInteractiveTypeConfigurationPrimaryKeysPrimaryKey(
+        pk,
+        context,
+      ),
   );
   return protocol;
 };
@@ -203,10 +285,11 @@ export const V1_transformInteractiveType = (
   //     V1_RootGraphFetchTree,
   //   );
   // }
-  protocol.configuration = element.configuration.map((c) =>
-    V1_transformInteractiveTypeConfiguration(c, context),
+  protocol.configuration = element.configuration.map(
+    (c: InteractiveTypeConfiguration) =>
+      V1_transformInteractiveTypeConfiguration(c, context),
   );
-  protocol.services = element.services.map((s) =>
+  protocol.services = element.services.map((s: InteractiveService) =>
     V1_transformInteractiveService(s, context),
   );
   return protocol;
@@ -279,7 +362,7 @@ export const V1_transformInteractiveApplication = (
     element.globalAuthorization,
     context,
   );
-  protocol.types = element.types.map((t) =>
+  protocol.types = element.types.map((t: InteractiveType) =>
     V1_transformInteractiveType(t, context),
   );
   return protocol;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { INTERACTIVE_APPLICATION_HASH_STRUCTURE } from '../../../../../../DSLInteractive_ModelUtils';
+import { INTERACTIVE_APPLICATION_HASH_STRUCTURE } from '../../../../../../DSLInteractive_ModelUtils.js';
 import { type Hashable, hashArray } from '@finos/legend-shared';
 import type { V1_RawLambda } from '@finos/legend-graph';
 

@@ -35,21 +35,21 @@ import {
   type PureGrammarParserElementDocumentationGetter,
   type PureGrammarParserDocumentationGetter,
 } from '@finos/legend-studio';
-import { InteractiveApplication } from '../../models/metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveApplication';
+import { InteractiveApplication } from '../../models/metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveApplication.js';
 import {
   PURE_GRAMMAR_INTERACTIVE_APPLICATION_ELEMENT_TYPE_LABEL,
   PURE_GRAMMAR_INTERACTIVE_APPLICATION_PARSER_NAME,
-} from '../../graphManager/DSLInteractive_PureGraphManagerPlugin';
+} from '../../graphManager/DSLInteractive_PureGraphManagerPlugin.js';
 import {
   DSL_INTERACTIVE_APPLICATION_DOCUMENTATION_ENTRIES,
   DSL_INTERACTIVE_APPLICATION_LEGEND_STUDIO_DOCUMENTATION_KEY,
-} from './DSLInteractive_LegendStudioDocumentation';
+} from './DSLInteractive_LegendStudioDocumentation.js';
 import {
   collectKeyedDocumnetationEntriesFromConfig,
   type LegendApplicationDocumentationEntry,
   type LegendApplicationKeyedDocumentationEntry,
 } from '@finos/legend-application';
-import { BLANK_INTERACTIVE_APPLICATION_SNIPPET } from './DSLInteractive_CodeSnippets';
+import { BLANK_INTERACTIVE_APPLICATION_SNIPPET } from './DSLInteractive_CodeSnippets.js';
 
 const INTERACTIVE_APPLICATION_ELEMENT_TYPE = 'INTERACTIVE_APPLICATION';
 const INTERACTIVE_APPLICATION_ELEMENT_PROJECT_EXPLORER_DND_TYPE =
@@ -157,7 +157,7 @@ export class DSLInteractive_LegendStudioPlugin
             elementKeyword ===
             PURE_GRAMMAR_INTERACTIVE_APPLICATION_ELEMENT_TYPE_LABEL
           ) {
-            return editorStore.applicationStore.docRegistry.getEntry(
+            return editorStore.applicationStore.documentationService.getDocEntry(
               DSL_INTERACTIVE_APPLICATION_LEGEND_STUDIO_DOCUMENTATION_KEY.GRAMMAR_INTERACTIVE_APPLICATION_ELEMENT,
             );
           }
@@ -176,7 +176,7 @@ export class DSLInteractive_LegendStudioPlugin
         if (
           parserKeyword === PURE_GRAMMAR_INTERACTIVE_APPLICATION_PARSER_NAME
         ) {
-          return editorStore.applicationStore.docRegistry.getEntry(
+          return editorStore.applicationStore.documentationService.getDocEntry(
             DSL_INTERACTIVE_APPLICATION_LEGEND_STUDIO_DOCUMENTATION_KEY.GRAMMAR_PARSER,
           );
         }
@@ -191,9 +191,10 @@ export class DSLInteractive_LegendStudioPlugin
         {
           text: PURE_GRAMMAR_INTERACTIVE_APPLICATION_PARSER_NAME,
           description: `(dsl)`,
-          documentation: editorStore.applicationStore.docRegistry.getEntry(
-            DSL_INTERACTIVE_APPLICATION_LEGEND_STUDIO_DOCUMENTATION_KEY.GRAMMAR_PARSER,
-          ),
+          documentation:
+            editorStore.applicationStore.documentationService.getDocEntry(
+              DSL_INTERACTIVE_APPLICATION_LEGEND_STUDIO_DOCUMENTATION_KEY.GRAMMAR_PARSER,
+            ),
           insertText: PURE_GRAMMAR_INTERACTIVE_APPLICATION_PARSER_NAME,
         },
       ],

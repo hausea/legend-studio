@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import type { V1_InteractiveApplication } from '../../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveApplication';
+import type { V1_InteractiveApplication } from '../../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveApplication.js';
 import {
   RawLambda,
   V1_buildFullPath,
@@ -26,53 +26,131 @@ import {
   guaranteeType,
   UnsupportedOperationError,
 } from '@finos/legend-shared';
-import { getOwnInteractiveApplication } from '../../../../../../../graphManager/DSLInteractive_GraphManagerHelper';
+import { getOwnInteractiveApplication } from '../../../../../../../graphManager/DSLInteractive_GraphManagerHelper.js';
 import {
   V1_InteractiveApplicationStore,
   V1_InteractiveApplicationStoreRelational,
-} from '../../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveApplicationStore';
+} from '../../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveApplicationStore.js';
 import {
   InteractiveApplicationStore,
   InteractiveApplicationStoreRelational,
-} from '../../../../../../metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveApplicationStore';
+} from '../../../../../../metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveApplicationStore.js';
 import {
   V1_DefaultInteractiveAuthorization,
   V1_InteractiveAuthorization,
-} from '../../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveAuthorization';
+} from '../../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveAuthorization.js';
 import {
   DefaultInteractiveAuthorization,
   InteractiveAuthorization,
-} from '../../../../../../metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveAuthorization';
-import type { V1_InteractiveType } from '../../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveType';
-import { InteractiveType } from '../../../../../../metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveType';
+} from '../../../../../../metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveAuthorization.js';
+import type { V1_InteractiveType } from '../../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveType.js';
+import { InteractiveType } from '../../../../../../metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveType.js';
 import {
   V1_InteractiveTypeConfiguration,
   V1_InteractiveTypePrimaryKeysConfiguration,
   V1_InteractiveTypePrimaryKeysPrimaryKeyConfiguration,
   V1_InteractiveTypeStringPropertyConfiguration,
   V1_PrimaryKeyStrategy,
-} from '../../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveConfiguration';
+} from '../../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveConfiguration.js';
 import {
   InteractiveTypeConfiguration,
   InteractiveTypePrimaryKeysConfiguration,
   InteractiveTypePrimaryKeysPrimaryKeyConfiguration,
   InteractiveTypeStringPropertyConfiguration,
   PrimaryKeyStrategy,
-} from '../../../../../../metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveConfiguration';
+} from '../../../../../../metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveConfiguration.js';
 import {
   V1_InteractiveService,
   V1_InteractiveServiceCreate,
+  V1_InteractiveServiceDelete,
   V1_InteractiveServiceRead,
-} from '../../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveService';
+  V1_InteractiveServiceUpdate,
+  V1_InteractiveServiceUpsert,
+} from '../../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveService.js';
 import {
   InteractiveService,
   InteractiveServiceCreate,
+  InteractiveServiceDelete,
   InteractiveServiceRead,
-} from '../../../../../../metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveService';
+  InteractiveServiceUpdate,
+  InteractiveServiceUpsert,
+} from '../../../../../../metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveService.js';
 
 /**********
  * interactive service
  **********/
+
+export const V1_buildInteractiveServiceDelete = (
+  protocol: V1_InteractiveServiceDelete,
+  context: V1_GraphBuilderContext,
+): InteractiveServiceDelete => {
+  const service = new InteractiveServiceDelete();
+  service.name = guaranteeNonEmptyString(
+    protocol.name,
+    `Interactive service 'name' field is missing or empty`,
+  );
+  service.authorization = V1_buildInteractiveAuthorization(
+    protocol.authorization,
+    context,
+  );
+  if (protocol.query) {
+    service.query = guaranteeType(
+      protocol.query.accept_RawValueSpecificationVisitor(
+        new V1_ProtocolToMetaModelRawValueSpecificationBuilder(context),
+      ),
+      RawLambda,
+    );
+  }
+  return service;
+};
+
+export const V1_buildInteractiveServiceUpsert = (
+  protocol: V1_InteractiveServiceUpsert,
+  context: V1_GraphBuilderContext,
+): InteractiveServiceUpsert => {
+  const service = new InteractiveServiceUpsert();
+  service.name = guaranteeNonEmptyString(
+    protocol.name,
+    `Interactive service 'name' field is missing or empty`,
+  );
+  service.authorization = V1_buildInteractiveAuthorization(
+    protocol.authorization,
+    context,
+  );
+  if (protocol.query) {
+    service.query = guaranteeType(
+      protocol.query.accept_RawValueSpecificationVisitor(
+        new V1_ProtocolToMetaModelRawValueSpecificationBuilder(context),
+      ),
+      RawLambda,
+    );
+  }
+  return service;
+};
+
+export const V1_buildInteractiveServiceUpdate = (
+  protocol: V1_InteractiveServiceUpdate,
+  context: V1_GraphBuilderContext,
+): InteractiveServiceUpdate => {
+  const service = new InteractiveServiceUpdate();
+  service.name = guaranteeNonEmptyString(
+    protocol.name,
+    `Interactive service 'name' field is missing or empty`,
+  );
+  service.authorization = V1_buildInteractiveAuthorization(
+    protocol.authorization,
+    context,
+  );
+  if (protocol.query) {
+    service.query = guaranteeType(
+      protocol.query.accept_RawValueSpecificationVisitor(
+        new V1_ProtocolToMetaModelRawValueSpecificationBuilder(context),
+      ),
+      RawLambda,
+    );
+  }
+  return service;
+};
 
 export const V1_buildInteractiveServiceCreate = (
   protocol: V1_InteractiveServiceCreate,
@@ -122,6 +200,12 @@ export const V1_buildInteractiveService = (
     return V1_buildInteractiveServiceRead(protocol, context);
   } else if (protocol instanceof V1_InteractiveServiceCreate) {
     return V1_buildInteractiveServiceCreate(protocol, context);
+  } else if (protocol instanceof V1_InteractiveServiceUpdate) {
+    return V1_buildInteractiveServiceUpdate(protocol, context);
+  } else if (protocol instanceof V1_InteractiveServiceUpsert) {
+    return V1_buildInteractiveServiceUpsert(protocol, context);
+  } else if (protocol instanceof V1_InteractiveServiceDelete) {
+    return V1_buildInteractiveServiceDelete(protocol, context);
   }
   throw new UnsupportedOperationError(
     `Can't build interactive service`,
@@ -164,8 +248,9 @@ export const V1_buildInteractiveTypeConfigurationPrimaryKeys = (
   context: V1_GraphBuilderContext,
 ): InteractiveTypePrimaryKeysConfiguration => {
   const config = new InteractiveTypePrimaryKeysConfiguration();
-  config.primaryKeys = protocol.primaryKeys.map((pk) =>
-    V1_buildInteractiveTypeConfigurationPrimaryKeysPrimaryKey(pk, context),
+  config.primaryKeys = protocol.primaryKeys.map(
+    (pk: V1_InteractiveTypePrimaryKeysPrimaryKeyConfiguration) =>
+      V1_buildInteractiveTypeConfigurationPrimaryKeysPrimaryKey(pk, context),
   );
   return config;
 };
@@ -219,10 +304,11 @@ export const V1_buildInteractiveType = (
   //     V1_buildValueSpecification(protocol.graphScope, context),
   //     RootGraphFetchTree);
   // }
-  interactiveType.configuration = protocol.configuration.map((c) =>
-    V1_buildInteractiveTypeConfiguration(c, context),
+  interactiveType.configuration = protocol.configuration.map(
+    (c: V1_InteractiveTypeConfiguration) =>
+      V1_buildInteractiveTypeConfiguration(c, context),
   );
-  interactiveType.services = protocol.services.map((s) =>
+  interactiveType.services = protocol.services.map((s: V1_InteractiveService) =>
     V1_buildInteractiveService(s, context),
   );
   return interactiveType;
@@ -302,7 +388,7 @@ export const V1_buildInteractiveApplication = (
     protocol.store,
     context,
   );
-  interactiveApplication.types = protocol.types.map((t) =>
+  interactiveApplication.types = protocol.types.map((t: V1_InteractiveType) =>
     V1_buildInteractiveType(t, context),
   );
 };

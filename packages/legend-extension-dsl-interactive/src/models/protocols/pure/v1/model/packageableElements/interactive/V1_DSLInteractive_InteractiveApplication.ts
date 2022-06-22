@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-import { INTERACTIVE_APPLICATION_HASH_STRUCTURE } from '../../../../../../DSLInteractive_ModelUtils';
+import { INTERACTIVE_APPLICATION_HASH_STRUCTURE } from '../../../../../../DSLInteractive_ModelUtils.js';
 import {
   type PackageableElementVisitor,
   V1_PackageableElement,
   V1_PackageableElementVisitor,
 } from '@finos/legend-graph';
 import { type Hashable, hashArray } from '@finos/legend-shared';
-import type { V1_InteractiveApplicationStore } from './V1_DSLInteractive_InteractiveApplicationStore';
-import type { V1_InteractiveAuthorization } from './V1_DSLInteractive_InteractiveAuthorization';
-import type { V1_InteractiveType } from './V1_DSLInteractive_InteractiveType';
+import type { V1_InteractiveApplicationStore } from './V1_DSLInteractive_InteractiveApplicationStore.js';
+import type { V1_InteractiveAuthorization } from './V1_DSLInteractive_InteractiveAuthorization.js';
+import type { V1_InteractiveType } from './V1_DSLInteractive_InteractiveType.js';
 
 export class V1_InteractiveApplication
   extends V1_PackageableElement

@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import { INTERACTIVE_APPLICATION_HASH_STRUCTURE } from '../../../../../DSLInteractive_ModelUtils';
+import { INTERACTIVE_APPLICATION_HASH_STRUCTURE } from '../../../../../DSLInteractive_ModelUtils.js';
 import { type Hashable, hashArray } from '@finos/legend-shared';
-import type { InteractiveAuthorization } from './DSLInteractive_InteractiveAuthorization';
+import type { InteractiveAuthorization } from './DSLInteractive_InteractiveAuthorization.js';
 import type { RawLambda } from '@finos/legend-graph';
 
 export abstract class InteractiveService implements Hashable {
@@ -49,6 +49,51 @@ export class InteractiveServiceCreate
     return hashArray([
       INTERACTIVE_APPLICATION_HASH_STRUCTURE.INTERACTIVE_SERVICE_CREATE,
       this.name,
+    ]);
+  }
+}
+
+export class InteractiveServiceUpdate
+  extends InteractiveService
+  implements Hashable
+{
+  query!: RawLambda;
+
+  override get hashCode(): string {
+    return hashArray([
+      INTERACTIVE_APPLICATION_HASH_STRUCTURE.INTERACTIVE_SERVICE_UPDATE,
+      this.name,
+      this.query,
+    ]);
+  }
+}
+
+export class InteractiveServiceUpsert
+  extends InteractiveService
+  implements Hashable
+{
+  query!: RawLambda;
+
+  override get hashCode(): string {
+    return hashArray([
+      INTERACTIVE_APPLICATION_HASH_STRUCTURE.INTERACTIVE_SERVICE_UPSERT,
+      this.name,
+      this.query,
+    ]);
+  }
+}
+
+export class InteractiveServiceDelete
+  extends InteractiveService
+  implements Hashable
+{
+  query!: RawLambda;
+
+  override get hashCode(): string {
+    return hashArray([
+      INTERACTIVE_APPLICATION_HASH_STRUCTURE.INTERACTIVE_SERVICE_DELETE,
+      this.name,
+      this.query,
     ]);
   }
 }

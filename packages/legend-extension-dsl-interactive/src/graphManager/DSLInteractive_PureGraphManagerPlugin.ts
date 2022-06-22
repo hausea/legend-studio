@@ -15,8 +15,8 @@
  */
 
 import packageJson from '../../package.json';
-import { InteractiveApplication } from '../models/metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveApplication';
-import { observe_InteractiveApplication } from './action/changeDetection/DSLInteractive_ObserverHelper';
+import { InteractiveApplication } from '../models/metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveApplication.js';
+import { observe_InteractiveApplication } from './action/changeDetection/DSLInteractive_ObserverHelper.js';
 import {
   PureGraphManagerPlugin,
   type PackageableElement,

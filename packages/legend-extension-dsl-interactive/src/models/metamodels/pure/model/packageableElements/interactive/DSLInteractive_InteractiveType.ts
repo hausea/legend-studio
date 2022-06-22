@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import { INTERACTIVE_APPLICATION_HASH_STRUCTURE } from '../../../../../DSLInteractive_ModelUtils';
+import { INTERACTIVE_APPLICATION_HASH_STRUCTURE } from '../../../../../DSLInteractive_ModelUtils.js';
 import { type Hashable, hashArray } from '@finos/legend-shared';
-import type { InteractiveTypeConfiguration } from './DSLInteractive_InteractiveConfiguration';
-import type { InteractiveService } from './DSLInteractive_InteractiveService';
+import type { InteractiveTypeConfiguration } from './DSLInteractive_InteractiveConfiguration.js';
+import type { InteractiveService } from './DSLInteractive_InteractiveService.js';
 
 export class InteractiveType implements Hashable {
   baseClass!: string;

@@ -15,7 +15,7 @@
  */
 
 import packageJson from '../../package.json';
-import { InteractiveApplication } from '../models/metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveApplication';
+import { InteractiveApplication } from '../models/metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveApplication.js';
 import type { Clazz } from '@finos/legend-shared';
 import { type PackageableElement, PureGraphPlugin } from '@finos/legend-graph';
 
