@@ -18,9 +18,8 @@ import { V1_InteractiveApplication } from '../../model/packageableElements/inter
 import type { PureProtocolProcessorPlugin } from '@finos/legend-graph';
 import {
   V1_deserializeRawValueSpecification,
-  V1_deserializeValueSpecification,
+  V1_RawVariable,
   V1_serializeRawValueSpecification,
-  V1_serializeValueSpecification,
 } from '@finos/legend-graph';
 import {
   deserializeArray,
@@ -82,6 +81,21 @@ const V1_readInteractiveServiceSchema =
         (val) => V1_deserializeInteractiveAuthorization(val),
       ),
       name: primitive(),
+      parameters: custom(
+        (val) =>
+          serializeArray(
+            val,
+            (v: V1_RawVariable) => V1_serializeRawValueSpecification(v),
+            {
+              skipIfEmpty: true,
+              INTERNAL__forceReturnEmptyInTest: true,
+            },
+          ),
+        (val) =>
+          deserializeArray(val, (v) => V1_deserializeRawValueSpecification(v), {
+            skipIfEmpty: false,
+          }),
+      ),
       query: custom(
         (val) => V1_serializeRawValueSpecification(val),
         (val) => V1_deserializeRawValueSpecification(val),
@@ -97,6 +111,21 @@ const V1_createInteractiveServiceSchema =
         (val) => V1_deserializeInteractiveAuthorization(val),
       ),
       name: primitive(),
+      parameters: custom(
+        (val) =>
+          serializeArray(
+            val,
+            (v: V1_RawVariable) => V1_serializeRawValueSpecification(v),
+            {
+              skipIfEmpty: true,
+              INTERNAL__forceReturnEmptyInTest: true,
+            },
+          ),
+        (val) =>
+          deserializeArray(val, (v) => V1_deserializeRawValueSpecification(v), {
+            skipIfEmpty: false,
+          }),
+      ),
     });
 
 const V1_updateInteractiveServiceSchema =
@@ -108,6 +137,21 @@ const V1_updateInteractiveServiceSchema =
         (val) => V1_deserializeInteractiveAuthorization(val),
       ),
       name: primitive(),
+      parameters: custom(
+        (val) =>
+          serializeArray(
+            val,
+            (v: V1_RawVariable) => V1_serializeRawValueSpecification(v),
+            {
+              skipIfEmpty: true,
+              INTERNAL__forceReturnEmptyInTest: true,
+            },
+          ),
+        (val) =>
+          deserializeArray(val, (v) => V1_deserializeRawValueSpecification(v), {
+            skipIfEmpty: false,
+          }),
+      ),
       query: custom(
         (val) => V1_serializeRawValueSpecification(val),
         (val) => V1_deserializeRawValueSpecification(val),
@@ -123,6 +167,21 @@ const V1_upsertInteractiveServiceSchema =
         (val) => V1_deserializeInteractiveAuthorization(val),
       ),
       name: primitive(),
+      parameters: custom(
+        (val) =>
+          serializeArray(
+            val,
+            (v: V1_RawVariable) => V1_serializeRawValueSpecification(v),
+            {
+              skipIfEmpty: true,
+              INTERNAL__forceReturnEmptyInTest: true,
+            },
+          ),
+        (val) =>
+          deserializeArray(val, (v) => V1_deserializeRawValueSpecification(v), {
+            skipIfEmpty: false,
+          }),
+      ),
       query: custom(
         (val) => V1_serializeRawValueSpecification(val),
         (val) => V1_deserializeRawValueSpecification(val),
@@ -138,6 +197,21 @@ const V1_deleteInteractiveServiceSchema =
         (val) => V1_deserializeInteractiveAuthorization(val),
       ),
       name: primitive(),
+      parameters: custom(
+        (val) =>
+          serializeArray(
+            val,
+            (v: V1_RawVariable) => V1_serializeRawValueSpecification(v),
+            {
+              skipIfEmpty: true,
+              INTERNAL__forceReturnEmptyInTest: true,
+            },
+          ),
+        (val) =>
+          deserializeArray(val, (v) => V1_deserializeRawValueSpecification(v), {
+            skipIfEmpty: false,
+          }),
+      ),
       query: custom(
         (val) => V1_serializeRawValueSpecification(val),
         (val) => V1_deserializeRawValueSpecification(val),
@@ -169,6 +243,12 @@ const V1_deserializeInteractiveService = (
       return deserialize(V1_readInteractiveServiceSchema(), json);
     case V1_InteractiveServiceType.CREATE:
       return deserialize(V1_createInteractiveServiceSchema(), json);
+    case V1_InteractiveServiceType.UPDATE:
+      return deserialize(V1_updateInteractiveServiceSchema(), json);
+    case V1_InteractiveServiceType.UPSERT:
+      return deserialize(V1_upsertInteractiveServiceSchema(), json);
+    case V1_InteractiveServiceType.DELETE:
+      return deserialize(V1_deleteInteractiveServiceSchema(), json);
     default:
       throw new UnsupportedOperationError(
         `Can't deserialize type service '${json._type}'`,

@@ -20,6 +20,7 @@ import {
   V1_buildFullPath,
   type V1_GraphBuilderContext,
   V1_ProtocolToMetaModelRawValueSpecificationBuilder,
+  V1_RawVariable,
 } from '@finos/legend-graph';
 import {
   guaranteeNonEmptyString,
@@ -75,6 +76,7 @@ import {
   InteractiveServiceUpdate,
   InteractiveServiceUpsert,
 } from '../../../../../../metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveService.js';
+import { V1_buildVariable } from '@finos/legend-graph';
 
 /**********
  * interactive service
@@ -101,6 +103,11 @@ export const V1_buildInteractiveServiceDelete = (
       RawLambda,
     );
   }
+  if (protocol.parameters) {
+    service.parameters = protocol.parameters.map((variable: V1_RawVariable) =>
+      V1_buildVariable(variable, context),
+    );
+  }
   return service;
 };
 
@@ -123,6 +130,11 @@ export const V1_buildInteractiveServiceUpsert = (
         new V1_ProtocolToMetaModelRawValueSpecificationBuilder(context),
       ),
       RawLambda,
+    );
+  }
+  if (protocol.parameters) {
+    service.parameters = protocol.parameters.map((variable: V1_RawVariable) =>
+      V1_buildVariable(variable, context),
     );
   }
   return service;
@@ -149,6 +161,11 @@ export const V1_buildInteractiveServiceUpdate = (
       RawLambda,
     );
   }
+  if (protocol.parameters) {
+    service.parameters = protocol.parameters.map((variable: V1_RawVariable) =>
+      V1_buildVariable(variable, context),
+    );
+  }
   return service;
 };
 
@@ -165,6 +182,11 @@ export const V1_buildInteractiveServiceCreate = (
     protocol.authorization,
     context,
   );
+  if (protocol.parameters) {
+    service.parameters = protocol.parameters.map((variable: V1_RawVariable) =>
+      V1_buildVariable(variable, context),
+    );
+  }
   return service;
 };
 
@@ -187,6 +209,11 @@ export const V1_buildInteractiveServiceRead = (
         new V1_ProtocolToMetaModelRawValueSpecificationBuilder(context),
       ),
       RawLambda,
+    );
+  }
+  if (protocol.parameters) {
+    service.parameters = protocol.parameters.map((variable: V1_RawVariable) =>
+      V1_buildVariable(variable, context),
     );
   }
   return service;

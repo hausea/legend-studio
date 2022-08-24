@@ -251,13 +251,20 @@ export * from './graphManager/protocol/pure/v1/transformation/pureGraph/to/V1_Gr
 export * from './graphManager/protocol/pure/v1/transformation/pureGraph/to/helpers/V1_ValueSpecificationPathResolver.js';
 export * from './graphManager/protocol/pure/v1/transformation/pureGraph/to/V1_ElementBuilder.js';
 export { V1_RawLambda } from './graphManager/protocol/pure/v1/model/rawValueSpecification/V1_RawLambda.js';
+export { V1_RawVariable } from './graphManager/protocol/pure/v1/model/rawValueSpecification/V1_RawVariable.js';
 export { V1_ProcessingContext } from './graphManager/protocol/pure/v1/transformation/pureGraph/to/helpers/V1_ProcessingContext.js';
 export * from './graphManager/protocol/pure/v1/transformation/pureGraph/from/V1_GraphTransformerContext.js';
 export * from './graphManager/protocol/pure/v1/transformation/pureGraph/from/V1_CoreTransformerHelper.js';
 export {
   V1_RawValueSpecificationTransformer,
   V1_transformRawLambda,
+  V1_transformRawVariableExpression,
 } from './graphManager/protocol/pure/v1/transformation/pureGraph/from/V1_RawValueSpecificationTransformer.js';
+export {
+  V1_deserializeConnectionValue,
+  V1_serializeConnectionValue,
+} from './graphManager/protocol/pure/v1/transformation/pureProtocol/serializationHelpers/V1_ConnectionSerializationHelper.js';
+export { V1_runtimePointerModelSchema } from './graphManager/protocol/pure/v1/transformation/pureProtocol/serializationHelpers/V1_RuntimeSerializationHelper.js';
 export {
   V1_rawLambdaModelSchema,
   V1_deserializeRawValueSpecification,
@@ -287,6 +294,8 @@ export {
   V1_buildGenericFunctionExpression,
   V1_buildBaseSimpleFunctionExpression,
 } from './graphManager/protocol/pure/v1/transformation/pureGraph/to/helpers/V1_ValueSpecificationBuilderHelper.js';
+export { V1_buildVariable } from './graphManager/protocol/pure/v1/transformation/pureGraph/to/helpers/V1_DomainBuilderHelper.js';
+export { V1_transformRootValueSpecification } from './graphManager/protocol/pure/v1/transformation/pureGraph/from/V1_ValueSpecificationTransformer.js';
 export * from './graphManager/protocol/pure/v1/transformation/pureProtocol/serializationHelpers/V1_CoreSerializationHelper.js';
 export * from './graphManager/protocol/pure/v1/transformation/pureGraph/to/V1_DSLExternalFormat_GraphBuilderHelper.js';
 export * from './graphManager/protocol/pure/v1/transformation/pureGraph/to/V1_ProtocolToMetaModelRawValueSpecificationBuilder';

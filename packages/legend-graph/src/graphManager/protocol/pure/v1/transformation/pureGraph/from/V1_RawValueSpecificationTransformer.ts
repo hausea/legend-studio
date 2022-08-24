@@ -90,3 +90,11 @@ export const V1_transformRawLambda = (
   rawLambda.accept_RawValueSpecificationVisitor(
     new V1_RawValueSpecificationTransformer(context),
   ) as V1_RawLambda;
+
+export const V1_transformRawVariableExpression = (
+  rawVariableExpression: RawVariableExpression,
+  context: V1_GraphTransformerContext,
+): V1_RawVariable =>
+  rawVariableExpression.accept_RawValueSpecificationVisitor(
+    new V1_RawValueSpecificationTransformer(context),
+  ) as V1_RawVariable;

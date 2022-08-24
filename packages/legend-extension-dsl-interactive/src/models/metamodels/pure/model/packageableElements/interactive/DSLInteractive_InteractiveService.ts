@@ -18,10 +18,12 @@ import { INTERACTIVE_APPLICATION_HASH_STRUCTURE } from '../../../../../DSLIntera
 import { type Hashable, hashArray } from '@finos/legend-shared';
 import type { InteractiveAuthorization } from './DSLInteractive_InteractiveAuthorization.js';
 import type { RawLambda } from '@finos/legend-graph';
+import type { RawVariableExpression } from '@finos/legend-graph';
 
 export abstract class InteractiveService implements Hashable {
   name!: string;
   authorization!: InteractiveAuthorization;
+  parameters: RawVariableExpression[] = [];
 
   abstract get hashCode(): string;
 }
@@ -37,6 +39,7 @@ export class InteractiveServiceRead
       INTERACTIVE_APPLICATION_HASH_STRUCTURE.INTERACTIVE_SERVICE_READ,
       this.name,
       this.query,
+      hashArray(this.parameters),
     ]);
   }
 }
@@ -49,6 +52,7 @@ export class InteractiveServiceCreate
     return hashArray([
       INTERACTIVE_APPLICATION_HASH_STRUCTURE.INTERACTIVE_SERVICE_CREATE,
       this.name,
+      hashArray(this.parameters),
     ]);
   }
 }
@@ -64,6 +68,7 @@ export class InteractiveServiceUpdate
       INTERACTIVE_APPLICATION_HASH_STRUCTURE.INTERACTIVE_SERVICE_UPDATE,
       this.name,
       this.query,
+      hashArray(this.parameters),
     ]);
   }
 }
@@ -79,6 +84,7 @@ export class InteractiveServiceUpsert
       INTERACTIVE_APPLICATION_HASH_STRUCTURE.INTERACTIVE_SERVICE_UPSERT,
       this.name,
       this.query,
+      hashArray(this.parameters),
     ]);
   }
 }
@@ -94,6 +100,7 @@ export class InteractiveServiceDelete
       INTERACTIVE_APPLICATION_HASH_STRUCTURE.INTERACTIVE_SERVICE_DELETE,
       this.name,
       this.query,
+      hashArray(this.parameters),
     ]);
   }
 }

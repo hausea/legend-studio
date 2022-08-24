@@ -16,10 +16,15 @@
 
 import { V1_InteractiveApplication } from '../../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveApplication.js';
 import {
+  RawVariableExpression,
   type V1_GraphTransformerContext,
   V1_initPackageableElement,
   V1_RawLambda,
   V1_RawValueSpecificationTransformer,
+  V1_transformRawLambda,
+  VariableExpression,
+  V1_transformRawVariableExpression,
+  V1_RawVariable,
 } from '@finos/legend-graph';
 import type { InteractiveApplication } from '../../../../../../metamodels/pure/model/packageableElements/interactive/DSLInteractive_InteractiveApplication.js';
 import {
@@ -71,6 +76,7 @@ import {
   V1_InteractiveServiceUpdate,
   V1_InteractiveServiceUpsert,
 } from '../../../model/packageableElements/interactive/V1_DSLInteractive_InteractiveService.js';
+import { V1_transformRootValueSpecification } from '@finos/legend-graph';
 
 /**********
  * interactive service
@@ -94,6 +100,12 @@ export const V1_transformInteractiveServiceDelete = (
       V1_RawLambda,
     );
   }
+  if (element.parameters) {
+    protocol.parameters = element.parameters.map(
+      (parameter: RawVariableExpression) =>
+        V1_transformRawVariableExpression(parameter, context),
+    );
+  }
   return protocol;
 };
 
@@ -113,6 +125,12 @@ export const V1_transformInteractiveServiceUpsert = (
         new V1_RawValueSpecificationTransformer(context),
       ),
       V1_RawLambda,
+    );
+  }
+  if (element.parameters) {
+    protocol.parameters = element.parameters.map(
+      (parameter: RawVariableExpression) =>
+        V1_transformRawVariableExpression(parameter, context),
     );
   }
   return protocol;
@@ -136,6 +154,12 @@ export const V1_transformInteractiveServiceUpdate = (
       V1_RawLambda,
     );
   }
+  if (element.parameters) {
+    protocol.parameters = element.parameters.map(
+      (parameter: RawVariableExpression) =>
+        V1_transformRawVariableExpression(parameter, context),
+    );
+  }
   return protocol;
 };
 
@@ -149,6 +173,12 @@ export const V1_transformInteractiveServiceCreate = (
     element.authorization,
     context,
   );
+  if (element.parameters) {
+    protocol.parameters = element.parameters.map(
+      (parameter: RawVariableExpression) =>
+        V1_transformRawVariableExpression(parameter, context),
+    );
+  }
   return protocol;
 };
 
@@ -168,6 +198,12 @@ export const V1_transformInteractiveServiceRead = (
         new V1_RawValueSpecificationTransformer(context),
       ),
       V1_RawLambda,
+    );
+  }
+  if (element.parameters) {
+    protocol.parameters = element.parameters.map(
+      (parameter: RawVariableExpression) =>
+        V1_transformRawVariableExpression(parameter, context),
     );
   }
   return protocol;
